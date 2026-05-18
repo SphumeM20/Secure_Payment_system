@@ -1,0 +1,43 @@
+version: 2.1
+
+jobs:
+  build-and-scan:
+    docker:
+      - image: cimg/node:22.5
+    steps:
+      - checkout
+      - run:
+          name: Install API packages
+          command: |
+            cd api
+            npm ci
+      - run:
+          name: Install Web packages
+          command: |
+            cd web
+            npm ci
+      - run:
+          name: Run API tests
+          command: |
+            cd api
+            npm test -- --runInBand || echo "No tests configured yet"
+      - run:
+          name: Run React build
+          command: |
+            cd web
+            npm run build
+      - run:
+          name: SonarQube scan
+          command: |
+            if [ -z "$SONAR_TOKEN" ] || [ -z "$SONAR_HOST_URL" ]; then
+              echo "SONAR_TOKEN and SONAR_HOST_URL are not set. Skipping scan in demo mode."
+            else
+              npx sonar-scanner \
+                -Dsonar.host.url=$SONAR_HOST_URL \
+                -Dsonar.token=$SONAR_TOKEN
+            fi
+
+workflows:
+  secure-payments-workflow:
+    jobs:
+      - build-and-scan

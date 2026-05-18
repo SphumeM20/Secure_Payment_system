@@ -1,0 +1,9 @@
+flowchart LR
+    C[Customer Browser] -->|HTTPS + TLS| R[React Customer Portal]
+    R -->|HTTPS API call + CSRF token| API[Secure Payments API]
+    API -->|bcrypt verify/hash| AUTH[Auth Service]
+    API -->|Parameterised SQL| DB[(SQLite Secure Payments DB)]
+    API -->|Pending Transaction| E[React Employee Portal]
+    E -->|Employee verifies account and SWIFT| API
+    API -->|Verified only| SWIFT[SWIFT Handoff Simulator]
+    SWIFT -->|Status update| DB

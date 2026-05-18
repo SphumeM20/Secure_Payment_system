@@ -1,0 +1,12 @@
+flowchart TD
+    Input[User input] --> Regex[Regex whitelist validation]
+    Regex --> API[API Controller]
+    API --> Auth[Role-based auth middleware]
+    Auth --> CSRF[CSRF header check]
+    CSRF --> DB[Parameterised DB queries]
+    API --> Headers[Helmet security headers]
+    API --> RateLimit[Rate limiting]
+    Headers --> Click[Clickjacking protection]
+    Headers --> XSS[CSP / XSS reduction]
+    RateLimit --> DOS[DoS brute-force reduction]
+    HTTPS[HTTPS + HSTS] --> MITM[MITM reduction]
