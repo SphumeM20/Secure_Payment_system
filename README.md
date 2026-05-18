@@ -1,7 +1,5 @@
 # Secure International Payments Portal
 
-This is a complete student-style project package for the APDS7311w POE international payments scenario.
-
 It contains:
 
 * `api/` - secure Node.js API with HTTPS, password hashing/salting, JWT session cookies, CSRF token checks, regex input whitelisting, rate limiting, security headers, and SQLite storage.
